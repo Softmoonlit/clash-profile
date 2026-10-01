@@ -1,0 +1,409 @@
+- id: ID_t14x38ak
+  name: 默认
+  generalConfig:
+    mode: rule
+    ipv6: false
+    mixed-port: 20112
+    allow-lan: false
+    log-level: warning
+    interface-name: ""
+  advancedConfig:
+    port: 0
+    socks-port: 0
+    secret: 9bc85877ad94118719b529a4a7f79d84377925043ec822b1b1b444b6bc0236d9
+    external-controller: 127.0.0.1:20113
+    external-ui: ""
+    keep-alive-interval: 30
+    find-process-mode: strict
+    external-controller-tls: ""
+    external-ui-name: ""
+    external-ui-url: ""
+    unified-delay: true
+    tcp-concurrent: true
+    authentication: []
+    skip-auth-prefixes:
+      - 127.0.0.1/8
+      - ::1/128
+    tls:
+      certificate: ""
+      private-key: ""
+    geodata-mode: false
+    geo-auto-update: false
+    geo-update-interval: 24
+    geodata-loader: standard
+    geosite-matcher: mph
+    geox-url:
+      geoip: ""
+      geosite: ""
+      mmdb: ""
+      asn: ""
+    global-ua: chrome
+    profile:
+      store-selected: true
+      store-fake-ip: true
+    lan-allowed-ips:
+      - 0.0.0.0/0
+      - ::/0
+    lan-disallowed-ips: []
+  tunConfig:
+    enable: false
+    stack: Mixed
+    auto-route: true
+    route-address: []
+    route-exclude-address: []
+    auto-detect-interface: true
+    dns-hijack:
+      - any:53
+    device: ""
+    mtu: 0
+    strict-route: true
+    endpoint-independent-nat: false
+  dnsConfig:
+    enable: true
+    listen: ""
+    ipv6: false
+    use-hosts: true
+    use-system-hosts: true
+    default-nameserver:
+      - 223.5.5.5
+      - 119.29.29.29
+    nameserver:
+      - https://dns.google/dns-query#节点
+      - https://cloudflare-dns.com/dns-query#节点
+    direct-nameserver:
+      - https://dns.alidns.com/dns-query
+    proxy-server-nameserver:
+      - https://dns.alidns.com/dns-query
+    nameserver-policy:
+      rule-set:GEOSITE-Private: system
+      rule-set:GEOSITE-CN: https://dns.alidns.com/dns-query
+      rule-set:geolocation-!cn: https://dns.google/dns-query#节点
+    enhanced-mode: redir-host
+    fake-ip-range: 198.18.0.1/16
+    fake-ip-range6: fc00::/18
+    fake-ip-filter-mode: blacklist
+    fake-ip-filter:
+      - "*.lan"
+      - "*.localdomain"
+      - "*.example"
+      - "*.invalid"
+      - "*.localhost"
+      - "*.test"
+      - "*.local"
+      - "*.home.arpa"
+      - "*.msftconnecttest.com"
+      - "*.msftncsi.com"
+    fallback: []
+    fallback-filter:
+      geoip: false
+      geoip-code: CN
+      geosite: []
+      ipcidr: []
+      domain: []
+    prefer-h3: false
+    hosts: {}
+  proxyGroupsConfig:
+    - id: ID_cu0sfowh
+      name: 谷歌
+      type: select
+      proxies: []
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      strategy: consistent-hashing
+      use:
+        - ID_1ad5xpn8
+      tolerance: 150
+      lazy: true
+      disable-udp: false
+      filter: ""
+      exclude-filter: 香港
+      hidden: false
+      icon: ""
+    - id: ID_t3rps3fy
+      name: 自动-edt2
+      type: url-test
+      proxies: []
+      url: https://www.gstatic.com/generate_204
+      interval: 600
+      strategy: consistent-hashing
+      use:
+        - ID_cfjsv39g
+      tolerance: 80
+      lazy: true
+      disable-udp: false
+      filter: ""
+      exclude-filter: ""
+      hidden: true
+      icon: ""
+    - id: outbound-urltest
+      name: " 自动-flybit"
+      type: url-test
+      proxies: []
+      url: https://www.gstatic.com/generate_204
+      interval: 600
+      strategy: consistent-hashing
+      use:
+        - ID_1ad5xpn8
+      tolerance: 80
+      lazy: true
+      disable-udp: false
+      filter: ""
+      exclude-filter: ""
+      hidden: true
+      icon: ""
+    - id: ID_c6gmdahs
+      name: flybit
+      type: select
+      proxies: []
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      strategy: consistent-hashing
+      use:
+        - ID_1ad5xpn8
+      tolerance: 150
+      lazy: true
+      disable-udp: false
+      filter: ""
+      exclude-filter: ""
+      hidden: false
+      icon: ""
+    - id: ID_8z009w24
+      name: edt2
+      type: select
+      proxies: []
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      strategy: consistent-hashing
+      use:
+        - ID_cfjsv39g
+      tolerance: 150
+      lazy: true
+      disable-udp: false
+      filter: ""
+      exclude-filter: ""
+      hidden: false
+      icon: ""
+    - id: outbound-select
+      name: 节点
+      type: select
+      proxies:
+        - id: outbound-urltest
+          type: Built-In
+          name: " 自动-flybit"
+        - id: ID_8z009w24
+          type: Built-In
+          name: edt2
+        - id: ID_t3rps3fy
+          type: Built-In
+          name: 自动-edt2
+        - id: ID_c6gmdahs
+          type: Built-In
+          name: flybit
+      url: ""
+      interval: 600
+      strategy: consistent-hashing
+      use: []
+      tolerance: 80
+      lazy: true
+      disable-udp: false
+      filter: ""
+      exclude-filter: ""
+      hidden: false
+      icon: ""
+    - id: outbound-global
+      name: GLOBAL
+      type: select
+      proxies:
+        - id: outbound-select
+          type: Built-In
+          name: 节点
+      url: ""
+      interval: 600
+      strategy: consistent-hashing
+      use: []
+      tolerance: 80
+      lazy: true
+      disable-udp: false
+      filter: ""
+      exclude-filter: ""
+      hidden: false
+      icon: ""
+  rulesConfig:
+    - id: InsertionPoint
+      type: InsertionPoint
+      enable: true
+      payload: ""
+      proxy: ""
+      no-resolve: false
+      ruleset-name: ""
+      ruleset-type: file
+      ruleset-behavior: domain
+      ruleset-format: mrs
+      ruleset-proxy: ""
+      ruleset-interval: 0
+    - id: ID_5vfoqidw
+      type: RULE-SET
+      enable: true
+      payload: direct
+      proxy: DIRECT
+      no-resolve: false
+      ruleset-name: ""
+      ruleset-type: file
+      ruleset-behavior: classical
+      ruleset-format: yaml
+      ruleset-proxy: ""
+      ruleset-interval: 0
+    - id: ID_rlk0s796
+      type: RULE-SET
+      enable: true
+      payload: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs
+      proxy: ID_cu0sfowh
+      no-resolve: false
+      ruleset-name: google-geosite.mrs
+      ruleset-type: http
+      ruleset-behavior: domain
+      ruleset-format: mrs
+      ruleset-proxy: ""
+      ruleset-interval: 0
+    - id: ID_6nx8quo6
+      type: RULE-SET
+      enable: true
+      payload: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/github.mrs
+      proxy: outbound-select
+      no-resolve: false
+      ruleset-name: github-geosite.mrs
+      ruleset-type: http
+      ruleset-behavior: domain
+      ruleset-format: mrs
+      ruleset-proxy: ""
+      ruleset-interval: 0
+    - id: ID_3t0hmzi6
+      type: RULE-SET
+      enable: true
+      payload: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft.mrs
+      proxy: DIRECT
+      no-resolve: false
+      ruleset-name: microsoft-geosite.mrs
+      ruleset-type: http
+      ruleset-behavior: domain
+      ruleset-format: mrs
+      ruleset-proxy: ""
+      ruleset-interval: 0
+    - id: ID_srmf4v5m
+      type: RULE-SET
+      enable: true
+      payload: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/google.mrs
+      proxy: ID_cu0sfowh
+      no-resolve: true
+      ruleset-name: google-geoip.mrs
+      ruleset-type: http
+      ruleset-behavior: ipcidr
+      ruleset-format: mrs
+      ruleset-proxy: ""
+      ruleset-interval: 0
+    - id: compact-private-domain
+      type: RULE-SET
+      enable: true
+      no-resolve: false
+      ruleset-behavior: domain
+      ruleset-format: mrs
+      ruleset-type: http
+      ruleset-name: GEOSITE-Private
+      ruleset-proxy: outbound-select
+      ruleset-interval: 86400
+      payload: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs
+      proxy: DIRECT
+    - id: compact-cn-domain
+      type: RULE-SET
+      enable: true
+      no-resolve: false
+      ruleset-behavior: domain
+      ruleset-format: mrs
+      ruleset-type: http
+      ruleset-name: GEOSITE-CN
+      ruleset-proxy: outbound-select
+      ruleset-interval: 86400
+      payload: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs
+      proxy: DIRECT
+    - id: compact-private-ip
+      type: RULE-SET
+      enable: true
+      no-resolve: true
+      ruleset-behavior: ipcidr
+      ruleset-format: mrs
+      ruleset-type: http
+      ruleset-name: GEOIP-Private
+      ruleset-proxy: outbound-select
+      ruleset-interval: 86400
+      payload: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs
+      proxy: DIRECT
+    - id: compact-cn-ip
+      type: RULE-SET
+      enable: true
+      no-resolve: true
+      ruleset-behavior: ipcidr
+      ruleset-format: mrs
+      ruleset-type: http
+      ruleset-name: GEOIP-CN
+      ruleset-proxy: outbound-select
+      ruleset-interval: 86400
+      payload: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs
+      proxy: DIRECT
+    - id: compact-non-cn-domain
+      type: RULE-SET
+      enable: true
+      no-resolve: false
+      ruleset-behavior: domain
+      ruleset-format: mrs
+      ruleset-type: http
+      ruleset-name: geolocation-!cn
+      ruleset-proxy: outbound-select
+      ruleset-interval: 86400
+      payload: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs
+      proxy: outbound-select
+    - id: compact-final
+      type: MATCH
+      enable: true
+      no-resolve: false
+      ruleset-behavior: domain
+      ruleset-format: mrs
+      ruleset-type: http
+      ruleset-name: ""
+      ruleset-proxy: ""
+      ruleset-interval: 0
+      payload: ""
+      proxy: DIRECT
+  sniffer:
+    enable: true
+    force-dns-mapping: true
+    parse-pure-ip: true
+    override-destination: false
+    force-domain: []
+    skip-domain: []
+    skip-src-address: []
+    skip-dst-address: []
+    sniff:
+      HTTP:
+        enable: true
+        ports:
+          - "80"
+          - 8080-8880
+      TLS:
+        enable: true
+        ports:
+          - "443"
+          - "8443"
+      QUIC:
+        enable: true
+        ports:
+          - "443"
+          - "8443"
+  mixinConfig:
+    priority: mixin
+    format: json
+    config: ""
+  scriptConfig:
+    code: |-
+      const onGenerate = async (config) => {
+        return config
+      }
